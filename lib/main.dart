@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 // import 'ui/cart/cart_screen.dart';
 // import 'ui/orders/orders_screen.dart';
 
+import 'package:provider/provider.dart';
+
 import 'ui/screens.dart';
 
 void main() {
@@ -18,17 +20,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'MyShop',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: 'Lato',
-        colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: Colors.purple,
-        ).copyWith(
-          secondary: Colors.deepOrange,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (ctx) => ProductsManager(),
         ),
-      ),
+      ],
+      child: MaterialApp(
+
+    // return MaterialApp(
+    //   title: 'MyShop',
+    //   debugShowCheckedModeBanner: false,
+    //   theme: ThemeData(
+    //     fontFamily: 'Lato',
+    //     colorScheme: ColorScheme.fromSwatch(
+    //       primarySwatch: Colors.purple,
+    //     ).copyWith(
+    //       secondary: Colors.deepOrange,
+    //     ),
+    //   ),
+
+
       // home: Scaffold(
       //   appBar: AppBar(
       //     title: const Text('MyShop'),
@@ -37,6 +49,7 @@ class MyApp extends StatelessWidget {
       //     child: Text('Welcome to MyShop'),
       //   ),
       // ),
+
       home: const ProductsOverviewScreen(),
         routes: {
           CartScreen.routeName: 
@@ -52,7 +65,7 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
               builder: (ctx) {
                 return ProductDetailScreen(
-                  ProductsManager().findById(productId)!,
+                  ctx.read<ProductsManager>().findById(productId)!,
                 );
               },
             );
@@ -60,6 +73,7 @@ class MyApp extends StatelessWidget {
 
           return null;
         },
+      ),
       // home: const SafeArea(
       //   child: OrdersScreen(),
       //     // ProductsManager().items[0],
