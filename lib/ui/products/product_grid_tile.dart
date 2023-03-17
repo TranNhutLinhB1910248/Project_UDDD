@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
 import '../cart/cart_manager.dart';
 
 import '../../models/product.dart';
 import 'product_detail_screen.dart';
+import 'products_manager.dart';
 
 class ProductGridTile extends StatelessWidget{
   const ProductGridTile(
@@ -48,8 +48,11 @@ class ProductGridTile extends StatelessWidget{
               isFavorite ? Icons.favorite : Icons.favorite_border,
             ),
             color: Theme.of(context).colorScheme.secondary,
+            // onPressed: () {
+            //   product.isFavorite = !isFavorite;
+            // },
             onPressed: () {
-              product.isFavorite = !isFavorite;
+              ctx.read<ProductsManager>().toggleFavoriteStatus(product);
             },
           );
         },
